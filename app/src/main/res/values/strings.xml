@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">LiteChat Revamped</string>
+    <string name="header_form_connection">Connection form</string>
+    <string name="text_view_username">Username</string>
+    <string name="edit_text_username">Login</string>
+    <string name="text_view_password">Password</string>
+    <string name="edit_text_password"></string>
+
+    <string name="button_clear">Clear</string>
+    <string name="button_send">Send</string>
+    <string name="title_activity_placement">PlacementActivity</string>
+
+    <string name="error_invalid_user">Invalid username/login!</string>
+    <string name="error_empty_fields">Please fill all the fields!</string>
+</resources>
