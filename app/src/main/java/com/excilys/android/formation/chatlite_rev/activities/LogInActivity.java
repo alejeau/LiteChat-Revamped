@@ -1,4 +1,4 @@
-package com.excilys.android.formation.litechate.activities;
+package com.excilys.android.formation.chatlite_rev.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,16 +12,16 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.excilys.android.formation.litechate.ChatApplication;
-import com.excilys.android.formation.litechate.R;
-import com.excilys.android.formation.litechate.model.User;
-import com.excilys.android.formation.litechate.tasks.AsyncTaskController;
-import com.excilys.android.formation.litechate.tasks.LogInTask;
+import com.excilys.android.formation.chatlite_rev.ChatApplication;
+import com.excilys.android.formation.chatlite_rev.R;
+import com.excilys.android.formation.chatlite_rev.model.User;
+import com.excilys.android.formation.chatlite_rev.tasks.AsyncTaskController;
+import com.excilys.android.formation.chatlite_rev.tasks.LogInTask;
 
 public class LogInActivity extends AppCompatActivity implements View.OnClickListener, AsyncTaskController<Boolean> {
     private final String TAG = LogInActivity.class.getSimpleName();
-    public final static String EXTRA_USERNAME = "com.excilys.android.formation.chatlite.USERNAME";
-    public final static String EXTRA_PASSWORD = "com.excilys.android.formation.chatlite.PASSWORD";
+    public final static String EXTRA_LOGIN = "com.excilys.android.formation.chatlite_rev.LOGIN";
+    public final static String EXTRA_PASSWORD = "com.excilys.android.formation.chatlite_rev.PASSWORD";
 
     private EditText editTextUsername;
     private EditText editTextPassword;
@@ -46,12 +46,22 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         // Restore preferences
         settings = getPreferences(MODE_PRIVATE);
         this.silentMode = settings.getBoolean("silentMode", false);
-        String username = settings.getString(EXTRA_USERNAME, "@string/edit_text_username");
-        String password = settings.getString(EXTRA_PASSWORD, "@string/edit_text_password");
+        String username = settings.getString(EXTRA_LOGIN, "");
+        String password = settings.getString(EXTRA_PASSWORD, "");
         this.user = new User(username, password);
 
         this.editTextUsername = (EditText) findViewById(R.id.editTextUsername);
         this.editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+
+        Log.i(TAG, "username = " + username);
+        if (!username.equals("")) {
+//            this.editTextUsername.setHint("");
+            this.editTextUsername.setText(user.getLogin());
+        }
+
+        if (!password.equals("")) {
+            this.editTextPassword.setText(user.getPassword());
+        }
 
         this.clearButton = (Button) findViewById(R.id.buttonClear);
         this.sendButton = (Button) findViewById(R.id.buttonSend);
@@ -78,6 +88,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         if (p.equals("")) {
             return false;
         }
+
         this.user = new User(u, p);
         return true;
     }
@@ -141,7 +152,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     private void startMainMenuActivity() {
         Intent intent = new Intent(this, ViewMessagesActivity.class);
-        intent.putExtra(EXTRA_USERNAME, user.getLogin());
+        intent.putExtra(EXTRA_LOGIN, user.getLogin());
         intent.putExtra(EXTRA_PASSWORD, user.getPassword());
         startActivity(intent);
     }
@@ -166,17 +177,20 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void saveUser() {
-        Log.i(TAG, "Saving user name and password...");
+        Log.i(TAG, "Saving user:");
+        Log.i(TAG, this.user.toString());
+
+//        Log.i(TAG, "Saving user name and password...");
 
         // We need an Editor object to make preference changes.
         // All objects are from android.context.Context
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean("silentMode", this.silentMode);
-        editor.putString(EXTRA_USERNAME, user.getLogin());
-        editor.putString(EXTRA_PASSWORD, user.getPassword());
+        editor.putString(EXTRA_LOGIN,    this.user.getLogin());
+        editor.putString(EXTRA_PASSWORD, this.user.getPassword());
 
         // Commit the edits!
-        editor.commit();
+        editor.apply();
         Log.i(TAG, "Done.");
     }
 }

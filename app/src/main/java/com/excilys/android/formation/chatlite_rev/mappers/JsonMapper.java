@@ -1,4 +1,4 @@
-package com.excilys.android.formation.litechate.mappers;
+package com.excilys.android.formation.chatlite_rev.mappers;
 
 import org.json.JSONArray;
 import org.json.JSONException;

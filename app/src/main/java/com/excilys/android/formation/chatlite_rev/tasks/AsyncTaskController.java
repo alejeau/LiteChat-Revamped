@@ -1,4 +1,4 @@
-package com.excilys.android.formation.litechate.tasks;
+package com.excilys.android.formation.chatlite_rev.tasks;
 
 /**
  * Created by loic on 29/04/2016.

@@ -1,4 +1,4 @@
-package com.excilys.android.formation.litechate.model;
+package com.excilys.android.formation.chatlite_rev.model;
 
 /**
  * Created by excilys on 29/04/16.
@@ -28,6 +28,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 
     @Override

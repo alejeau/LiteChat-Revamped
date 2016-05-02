@@ -1,8 +1,8 @@
-package com.excilys.android.formation.litechate;
+package com.excilys.android.formation.chatlite_rev;
 
 import android.app.Application;
 
-import com.excilys.android.formation.litechate.connection.ChatAPIService;
+import com.excilys.android.formation.chatlite_rev.connection.ChatAPIService;
 
 /**
  * Created by excilys on 29/04/16.

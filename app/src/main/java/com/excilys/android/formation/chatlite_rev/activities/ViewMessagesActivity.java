@@ -1,9 +1,9 @@
-package com.excilys.android.formation.litechate.activities;
+package com.excilys.android.formation.chatlite_rev.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.excilys.android.formation.litechate.R;
+import com.excilys.android.formation.chatlite_rev.R;
 
 public class ViewMessagesActivity extends AppCompatActivity {
 

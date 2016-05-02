@@ -1,4 +1,4 @@
-package com.excilys.android.formation.litechate.model;
+package com.excilys.android.formation.chatlite_rev.model;
 
 import java.util.UUID;
 

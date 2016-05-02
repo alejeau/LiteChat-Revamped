@@ -1,10 +1,10 @@
-package com.excilys.android.formation.litechate.mappers.jackson;
+package com.excilys.android.formation.chatlite_rev.mappers.jackson;
 
 import android.util.Log;
 
-import com.excilys.android.formation.litechate.model.ComplexMessage;
-import com.excilys.android.formation.litechate.model.SimpleMessage;
-import com.excilys.android.formation.litechate.model.User;
+import com.excilys.android.formation.chatlite_rev.model.ComplexMessage;
+import com.excilys.android.formation.chatlite_rev.model.SimpleMessage;
+import com.excilys.android.formation.chatlite_rev.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
