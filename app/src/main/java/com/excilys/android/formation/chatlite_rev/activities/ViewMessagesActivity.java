@@ -11,9 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.excilys.android.formation.chatlite_rev.ChatApplication;
@@ -24,8 +22,6 @@ import com.excilys.android.formation.chatlite_rev.model.SimpleMessage;
 import com.excilys.android.formation.chatlite_rev.tasks.SendMessageTask;
 import com.excilys.android.formation.chatlite_rev.tasks.ViewMessagesTask;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ViewMessagesActivity extends AppCompatActivity implements View.OnClickListener, SendMessageTask.SendMessageTaskController, ViewMessagesTask.ViewMessagesTaskController {
@@ -64,7 +60,7 @@ public class ViewMessagesActivity extends AppCompatActivity implements View.OnCl
 
         this.buttonSendMessage = (Button) findViewById(R.id.button_send_message);
 
-        simpleMessageAdapter = new SimpleMessageAdapter(this);
+        simpleMessageAdapter = new SimpleMessageAdapter(this, this.user);
 
         listView = (ListView) findViewById(R.id.listViewViewMessages);
         this.listView.setAdapter(simpleMessageAdapter);

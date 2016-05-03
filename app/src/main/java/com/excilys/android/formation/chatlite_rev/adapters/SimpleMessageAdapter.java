@@ -22,10 +22,12 @@ public class SimpleMessageAdapter extends BaseAdapter {
     private List<SimpleMessage> simpleMessagesList = Collections.emptyList();
 
     private final Context context;
+    private String currentLogin;
 
     // the context is needed to inflate views in getView()
-    public SimpleMessageAdapter(Context context) {
+    public SimpleMessageAdapter(Context context, String currentLogin) {
         this.context = context;
+        this.currentLogin = currentLogin;
     }
 
     public void updateMessages(List<SimpleMessage> simpleMessagesList) {
@@ -56,15 +58,22 @@ public class SimpleMessageAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        SimpleMessage simpleMessage = getItem(position);
+//        String login = simpleMessage.getLogin();
+
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.simple_message_view, parent, false);
         }
 
-        TextView loginView = (TextView) convertView.findViewById(R.id.simple_message_login);
-        TextView messageView = (TextView) convertView.findViewById(R.id.simple_message_text_message);
+        TextView loginView;
+        TextView messageView;
+        loginView = (TextView) convertView.findViewById(R.id.simple_message_login);
+        messageView = (TextView) convertView.findViewById(R.id.simple_message_text_message);
 
-        SimpleMessage simpleMessage = getItem(position);
         loginView.setText(simpleMessage.getLogin());
+//        if (login.equals(this.currentLogin)) {
+//            loginView.setTextColor("#2EFF2E");
+//        }
         messageView.setText(simpleMessage.getMessage());
 
         return convertView;
