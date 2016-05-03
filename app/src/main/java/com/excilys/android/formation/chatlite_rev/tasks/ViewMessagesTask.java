@@ -6,7 +6,7 @@ import com.excilys.android.formation.chatlite_rev.connection.ChatAPIService;
 
 public class ViewMessagesTask extends android.os.AsyncTask<String, Void, String> {
 
-    private final String TAG = ViewMessagesTask.class.getSimpleName();
+    private final String TAG = this.getClass().getSimpleName();
     private ChatAPIService chatAPIService;
     private ViewMessagesTaskController l;
 

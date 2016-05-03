@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.excilys.android.formation.chatlite_rev.ChatApplication;
 import com.excilys.android.formation.chatlite_rev.R;
+import com.excilys.android.formation.chatlite_rev.adapters.SimpleMessageAdapter;
 import com.excilys.android.formation.chatlite_rev.mappers.JsonMapper;
 import com.excilys.android.formation.chatlite_rev.model.SimpleMessage;
 import com.excilys.android.formation.chatlite_rev.tasks.SendMessageTask;
@@ -25,6 +26,7 @@ import com.excilys.android.formation.chatlite_rev.tasks.ViewMessagesTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ViewMessagesActivity extends AppCompatActivity implements View.OnClickListener, SendMessageTask.SendMessageTaskController, ViewMessagesTask.ViewMessagesTaskController {
     private ListView listView;
@@ -37,6 +39,8 @@ public class ViewMessagesActivity extends AppCompatActivity implements View.OnCl
 
     private SendMessageTask sendMessageTask;
     private ViewMessagesTask viewMessagesTask;
+
+    private SimpleMessageAdapter simpleMessageAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +64,10 @@ public class ViewMessagesActivity extends AppCompatActivity implements View.OnCl
 
         this.buttonSendMessage = (Button) findViewById(R.id.button_send_message);
 
+        simpleMessageAdapter = new SimpleMessageAdapter(this);
+
         listView = (ListView) findViewById(R.id.listViewViewMessages);
+        this.listView.setAdapter(simpleMessageAdapter);
         this.buttonSendMessage.setOnClickListener(this);
         refresh();
     }
@@ -116,16 +123,8 @@ public class ViewMessagesActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onPostExecuteViewMessages(String messages) {
-        // Maps the message String into a ArrayList<HashMap<String, String>>
-        ArrayList<HashMap<String, String>> list = JsonMapper.mapMessages(messages);
-
-        // Displays the messages in a ListAdapter
-        String[] orga = new String[]{"name", "message"};
-        int[] ids = new int[]{R.id.pseudo, R.id.textMessage};
-        ListAdapter adapter = new SimpleAdapter(this, list, R.layout.row_list, orga, ids);
-        listView.setAdapter(adapter);
-        listView.setSelection(list.size() - 1);
-
+        List<SimpleMessage> simpleMessageList = JsonMapper.mapSimpleMessages(messages);
+        this.simpleMessageAdapter.updateMessages(simpleMessageList);
     }
 
     @Override

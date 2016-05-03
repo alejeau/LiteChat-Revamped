@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="10dp"
-    >
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#FF2E2E"
-        android:layout_marginLeft="10dp"
+        android:textColor="#2E2EFF"
         android:textStyle="bold"
         tools:text="pseudo"
         />
@@ -21,9 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:layout_alignLeft="@+id/login"
-        android:layout_below="@+id/login"
         tools:text="text"
         />
-
-</RelativeLayout>
+</LinearLayout>

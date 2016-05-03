@@ -2,12 +2,18 @@ package com.excilys.android.formation.chatlite_rev.mappers;
 
 import android.util.Log;
 
+import com.excilys.android.formation.chatlite_rev.model.SimpleMessage;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.UUID;
 
 public class JsonMapper {
     private static final String TAG = JsonMapper.class.getSimpleName();
@@ -38,23 +44,15 @@ public class JsonMapper {
             e.printStackTrace();
         }
 
-        if (res.equals("200")){
+        if (res.equals("200")) {
             ok = true;
         }
 
         return ok;
     }
 
-    /**
-     * Converts a String of message into a ArrayList of HashMap<String, String>
-     *     with the username as key and the message as value.
-     * The String is divided by couples username:message, separated by a ';'.
-     *
-     * @param response the String of messages,
-     * @return an ArrayList of HashMap<"username", "message">
-     */
-    public static ArrayList<HashMap<String, String>> mapMessages(String response) {
-        ArrayList<HashMap<String, String>> list = new ArrayList<>();
+    public static List<SimpleMessage> mapSimpleMessages(String response) {
+        LinkedList<SimpleMessage> list = new LinkedList<>();
         JSONArray ja = null;
         try {
             ja = new JSONArray(response);
@@ -62,7 +60,7 @@ public class JsonMapper {
             for (int i = 0; i < len; i++) {
                 JSONObject jso = ja.getJSONObject(i);
 //                Log.d(TAG, "dibug: jso = " + jso);
-                list.add(toHashMap(ja.getJSONObject(i)));
+                list.add(toSimpleMessage(ja.getJSONObject(i)));
             }
         } catch (JSONException e) {
         }
@@ -72,12 +70,15 @@ public class JsonMapper {
         return list;
     }
 
-    private static HashMap<String, String> toHashMap(JSONObject jso) throws JSONException{
-        HashMap<String, String> h = new HashMap<>(2);
-        h.put("name", jso.getString("login"));
-        h.put("message", jso.getString("message"));
+    private static SimpleMessage toSimpleMessage(JSONObject jso) throws JSONException {
+        String login, message, uuString;
+        UUID uuid;
+        login = jso.getString("login");
+        message = jso.getString("message");
+        uuString = jso.getString("uuid");
+        uuid = UUID.fromString(uuString);
 //        Log.d(TAG, "dibug: h = " + h.toString());
-        return h;
+        return new SimpleMessage(uuid, login, message);
     }
 
 }
