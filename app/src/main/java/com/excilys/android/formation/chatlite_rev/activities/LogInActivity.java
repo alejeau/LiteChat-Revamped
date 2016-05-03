@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.excilys.android.formation.chatlite_rev.ChatApplication;
 import com.excilys.android.formation.chatlite_rev.R;
+import com.excilys.android.formation.chatlite_rev.enums.NetworkAction;
 import com.excilys.android.formation.chatlite_rev.model.User;
 import com.excilys.android.formation.chatlite_rev.tasks.AsyncTaskController;
 import com.excilys.android.formation.chatlite_rev.tasks.LogInTask;
@@ -27,6 +28,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private EditText editTextPassword;
 
     private Button clearButton;
+    private Button registerButton;
     private Button sendButton;
 
     private ProgressBar progressBar;
@@ -37,6 +39,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     private SharedPreferences settings;
     private boolean silentMode;
+
+    private NetworkAction networkAction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +59,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
         Log.i(TAG, "username = " + username);
         if (!username.equals("")) {
-//            this.editTextUsername.setHint("");
             this.editTextUsername.setText(user.getLogin());
         }
 
@@ -63,12 +66,14 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             this.editTextPassword.setText(user.getPassword());
         }
 
-        this.clearButton = (Button) findViewById(R.id.buttonClear);
-        this.sendButton = (Button) findViewById(R.id.buttonSend);
+        this.clearButton = (Button) findViewById(R.id.button_clear);
+        this.registerButton = (Button) findViewById(R.id.button_register);
+        this.sendButton = (Button) findViewById(R.id.button_send);
 
         this.progressBar = (ProgressBar) findViewById(R.id.loadingWheel);
 
         this.clearButton.setOnClickListener(this);
+        this.registerButton.setOnClickListener(this);
         this.sendButton.setOnClickListener(this);
     }
 
@@ -104,10 +109,16 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onPostExecute(Boolean success) {
         if (success) {
-            saveUser();
-            startMainMenuActivity();
+            if (!this.networkAction.equals(NetworkAction.CLEAR)) {
+                saveUser();
+                startMainMenuActivity();
+            }
         } else {
-            Toast.makeText(this, R.string.error_invalid_user, Toast.LENGTH_LONG).show();
+            if (this.networkAction.equals(NetworkAction.REGISTER)) {
+                Toast.makeText(this, R.string.error_registration_failure, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, R.string.error_invalid_user, Toast.LENGTH_LONG).show();
+            }
         }
         // Hide progress bar
         this.progressBar.setVisibility(View.INVISIBLE);
@@ -118,17 +129,21 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.buttonSend:
+            case R.id.button_send:
                 if (isValid()) {
                     updateUser();
                     saveUser();
-                    startLoginTask();
+                    startLogInTask(NetworkAction.IS_VALID_USER);
                 } else {
                     Toast.makeText(this, R.string.error_empty_fields, Toast.LENGTH_LONG).show();
                 }
                 break;
-            case  R.id.buttonClear:
+            case R.id.button_register:
+                startLogInTask(NetworkAction.REGISTER);
+                break;
+            case  R.id.button_clear:
                 clear();
+                startLogInTask(NetworkAction.CLEAR);
                 break;
             default:
                 break;
@@ -138,16 +153,19 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private void clear() {
         this.editTextUsername.setHint(R.string.edit_text_username);
         this.editTextPassword.setHint(R.string.edit_text_password);
-        this.user = null;
+        this.editTextUsername.setText("");
+        this.editTextPassword.setText("");
+        this.user = new User("", "");
     }
 
-    private void startLoginTask() {
+    private void startLogInTask(NetworkAction n) {
+        this.networkAction = n;
         if (logInTask != null && logInTask.getStatus().equals(AsyncTask.Status.RUNNING)) {
             logInTask.cancel(true);
         }
         logInTask = new LogInTask((ChatApplication) this.getApplication(), this.user);
         logInTask.setLoginTaskListener(this);
-        logInTask.execute();
+        logInTask.execute(n);
     }
 
     private void startMainMenuActivity() {

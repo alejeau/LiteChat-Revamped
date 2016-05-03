@@ -1,15 +1,28 @@
 <resources>
     <string name="app_name">LiteChat Revamped</string>
+
+    <!--LogInActivity-->
     <string name="header_form_connection">Connection form</string>
+    <!--LogInActivity TextView & EditView-->
     <string name="text_view_username">Username</string>
     <string name="edit_text_username">Login</string>
     <string name="text_view_password">Password</string>
     <string name="edit_text_password"></string>
 
+    <!--LogInActivity buttons-->
     <string name="button_clear">Clear</string>
+    <string name="button_register">Register</string>
     <string name="button_send">Send</string>
+
     <string name="title_activity_placement">PlacementActivity</string>
 
     <string name="error_invalid_user">Invalid username/login!</string>
     <string name="error_empty_fields">Please fill all the fields!</string>
+    <string name="error_registration_failure">Couldn\'t register user!</string>
+
+    <string name="title_activity_view_messages">Messages</string>
+    <string name="button_send_message">Send</string>
+
+    <string name="menuLogout">Log out</string>
+    <string name="menuRefresh">Refresh</string>
 </resources>

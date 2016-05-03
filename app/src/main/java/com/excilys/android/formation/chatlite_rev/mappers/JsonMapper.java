@@ -1,5 +1,7 @@
 package com.excilys.android.formation.chatlite_rev.mappers;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +32,7 @@ public class JsonMapper {
 
         try {
             reader = new JSONObject(response);
+            Log.d(TAG, reader.toString());
             res = reader.getString("status");
         } catch (JSONException e) {
             e.printStackTrace();
